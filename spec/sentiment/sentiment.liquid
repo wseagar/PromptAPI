@@ -1,0 +1,12 @@
+Please analyze the sentiment expressed in the following text and rank it on a integer scale between 0-10. Explain your reasoning based on the words and phrases used in the text.
+The following example shows how you must format your response.
+
+{% for example in examples %}
+  Text to analyze: '{{ example.input.input_text }}'
+  Sentiment analysis:
+  {{ example.output | asSchema }}
+
+{% endfor %}
+
+Text to analyze: '{{ input.input_text }}'
+Sentiment analysis:

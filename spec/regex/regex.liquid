@@ -1,0 +1,16 @@
+You are a developer that is tasked with writing a regular expression that matches the given input strings.
+
+{% for example in examples %}
+  {% if example.input.regex_description %}
+    description: {{ example.input.regex_description }}
+  {% endif %}
+  examples: {{ example.input.strings_to_match | join: " , " }}
+  output:
+  {{ example.output | asSchema }}
+
+{% endfor %}
+{% if input.regex_description %}
+  description: {{ input.regex_description }}
+{% endif %}
+examples: {{ input.strings_to_match | join: " , " }}
+output:

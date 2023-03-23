@@ -1,0 +1,54 @@
+{
+  "name": "regex_generator",
+  "description": "Generate a regular expression that matches a set of strings.",
+  "author": "w.seagar@gmail.com",
+  "version": "0.1.0",
+  "license": "MIT",
+  "template": {
+    "language": "liquid",
+    "file": "regex.liquid"
+  },
+  "input": {
+    "schema": {
+      "regex_description": {
+        "type": "string",
+        "description": "A description of what the regex we are generating should do."
+      },
+      "strings_to_match": {
+        "type": "array",
+        "description": "A list of strings that the regular expression should match.",
+        "items": {
+          "type": "string",
+          "description": "A string that the regular expression should match."
+        }
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "regex": {
+        "type": "string",
+        "description": "A regular expression that matches the input strings."
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "strings_to_match": ["foo", "bar", "baz"]
+      },
+      "output": {
+        "regex": "^(foo|bar|baz)$"
+      }
+    },
+    {
+      "input": {
+        "regex_description": "A regex that matches emails",
+        "strings_to_match": ["w.seagar@gmail.com"]
+      },
+      "output": {
+        "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"
+      }
+    }
+  ]
+}
