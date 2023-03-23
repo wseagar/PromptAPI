@@ -27,11 +27,11 @@ OpenPrompt utilizes Shopify's Liquid templating language to build prompts, integ
 
 The core of the OpenPrompt implementation is:
 
-`const spec = OpenPrompt.fromSpec(spec, template) / OpenPrompt.fromFolder(folder)`: Loads a specification and a template
-`const prompt = spec.compile(inputs)`: This function compiles the provided inputs into a prompt according to the OpenPrompt specification.
-`const output = spec.parse(llmTextResponse)`: This function parses the LLM text response into an object.
+ - `const spec = OpenPrompt.fromSpec(spec, template) / OpenPrompt.fromFolder(folder)`: Loads a specification and a template
+ - `const prompt = spec.compile(inputs)`: This function compiles the provided inputs into a prompt according to the OpenPrompt specification.
+ - `const output = spec.parse(llmTextResponse)`: This function parses the LLM text response into an object.
 
-OpenPrompt does not handle interacting with any specific LLM/LLM API and is out of scope of this project.
+OpenPrompt does not handle interacting with any specific LLM/LLM API and is out of scope.
 
 ### Tutorial
 
