@@ -8,20 +8,23 @@
 
 OpenPrompt is an open-source, language-agnostic JSON-based schema format for defining and working with large language model (LLM) prompts. It features a Typescript implementation in its repository, but the format is designed to be adaptable across various programming languages. OpenPrompt addresses challenges in working with large language models by improving output parsing/validation, enabling prompt sharing/versioning, and minimizing code complexity.
 
-## Install
+## Typescript Implementation
 
 ```bash
 # NPM
 npm i OpenPrompt
-
+```
+```bash
 # Yarn
 yarn add OpenPrompt
+```
 
+```bash
 # pnpm
 pnpm i OpenPrompt
 ```
 
-## Usage
+### Usage
 
 OpenPrompt utilizes Shopify's Liquid templating language to build prompts, integrating helper functions that guide the LLM to generate responses in a parsable HTML/XML-like format. The decision to adopt an HTML-like format is intentional, given that LLMs have extensive training on HTML/XML content and are highly proficient in creating such structures. Additionally, HTML parsers can efficiently manage slightly malformed or damaged HTML.
 
@@ -39,9 +42,8 @@ The following is an example of using OpenPrompt and the OpenPrompt typescript li
 
 Firstly we need to create `sentiment.json` and `sentiment.liquid`
 
-sentiment.liquid
-
-```
+`/sementiment/sentiment.liquid`
+```liquid
 Please analyze the sentiment expressed in the following text and rank it on a integer scale between 0-10. Explain your reasoning based on the words and phrases used in the text.
 The following example shows how you must format your response.
 
@@ -56,9 +58,8 @@ Text to analyze: '{{ input.input_text }}'
 Sentiment analysis:
 ```
 
-sentiment.json
-
-```
+`/sentiment/sentiment.json`
+```json
 {
   "name": "sentiment-extractor",
   "description": "Extract the sentiment of the text.",
@@ -115,9 +116,9 @@ sentiment.json
 }
 ```
 
-Now in NodeJS
+Now in Typescript
 
-```
+```typescript
 import OpenPrompt from "openprompt";
 
 const spec = OpenPrompt.fromFolder("./sentiment");
@@ -127,6 +128,7 @@ const prompt = spec.compile({
 console.log(prompt);
 ```
 
+Heres the compiled prompt
 ```
 Please analyze the sentiment expressed in the following text and rank it on a integer scale between 0-10. Explain your reasoning based on the words and phrases used in the text.
 The following example shows how you must format your response.
@@ -161,10 +163,17 @@ Text to analyze: 'The food at this restaurant was honestly terrible. The dishes 
 Sentiment analysis:
 ```
 
-Now use your favourite method to send this prompt to a LLM. In this example I will use ChatGPT 3.5 turbo.
+Now use your favourite method to send this prompt to a LLM.
 
-LLM response
+Now hopefully the LLM will respond in a format that's parsable by OpenPrompt.
 
+```typescript
+const parsed = spec.parse(llmResponseText);
+console.log(parsed.sentiment); // 1
+console.log(parsed.reason); // "The words and phrases used in the text indicate a highly negative sentiment towards the experience, with the customer expressing dissatisfaction with multiple aspects of their visit to the restaurant."
+console.log(parsed.words_or_phrases) // ["terrible", "cold", "bland", "painfully slow", "wasted my money"]
+```
+The raw LLM response
 ```
 <schema>
   <sentiment type="number" description="An integer number between 0-10, where 0 is negative and 10 is positive.">
@@ -193,12 +202,7 @@ LLM response
 </schema>
 ```
 
-```
-const parsed = spec.parse(llmResponseText);
-console.log(parsed.sentiment); // 1
-console.log(parsed.reason); // "The words and phrases used in the text indicate a highly negative sentiment towards the experience, with the customer expressing dissatisfaction with multiple aspects of their visit to the restaurant."
-console.log(parsed.words_or_phrases) // ["terrible", "cold", "bland", "painfully slow", "wasted my money"]
-```
+
 
 ### Why did I make this?
 
