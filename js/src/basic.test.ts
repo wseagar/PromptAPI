@@ -1,6 +1,6 @@
 import { test, expect, describe } from "@jest/globals";
 
-import op, { OpenPromptSpec } from "./main";
+import op, { PromptAPISpec } from "./main";
 
 const inputSchema = {
   name: {
@@ -16,7 +16,7 @@ const outputSchema = {
   },
 } as const;
 
-const BASIC_SPECIFICATION: OpenPromptSpec<
+const BASIC_SPECIFICATION: PromptAPISpec<
   typeof inputSchema,
   typeof outputSchema
 > = {

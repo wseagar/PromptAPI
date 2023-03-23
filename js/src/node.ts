@@ -2,7 +2,7 @@
  * This file is the entrypoint of node builds.
  * The code executes when loaded in a node.
  */
-import OpenPrompt, { OpenPromptSpec } from "./main";
+import PromptAPI, { PromptAPISpec } from "./main";
 import fs from "fs";
 import path from "path";
 
@@ -10,7 +10,7 @@ const normalizeLineEndings = (str: string) => {
   return str.replace(/\r\n|\r/g, "\n");
 };
 
-OpenPrompt.fromFolder = (folder: string) => {
+PromptAPI.fromFolder = (folder: string) => {
   const directory = fs.readdirSync(folder);
   const files = directory.filter((file) => file.endsWith(".json"));
   if (files.length !== 1) {
@@ -21,7 +21,7 @@ OpenPrompt.fromFolder = (folder: string) => {
   const specFilePath = path.join(folder, files[0]);
   const spec = JSON.parse(
     fs.readFileSync(specFilePath, "utf-8")
-  ) as OpenPromptSpec;
+  ) as PromptAPISpec;
 
   const templateFiles = directory.filter((d) => d === spec.template.file);
   if (templateFiles.length !== 1) {
@@ -40,7 +40,7 @@ OpenPrompt.fromFolder = (folder: string) => {
 
   spec.template.content = split;
 
-  return OpenPrompt.fromSpec(spec);
+  return PromptAPI.fromSpec(spec);
 };
 
-export default OpenPrompt;
+export default PromptAPI;

@@ -1,11 +1,11 @@
 {
-  "name": "openprompt",
+  "name": "promptapi",
   "version": "0.2.0",
-  "description": "A JavaScript implementation of the OpenPrompt specification",
+  "description": "A JavaScript implementation of the PromptAPI specification",
   "contributors": [
     "Will Seagar <w.seagar@gmail.com>"
   ],
-  "repository": "git://github.com/wseagar/OpenPrompt.git",
+  "repository": "git://github.com/wseagar/promptapi.git",
   "license": "MIT",
   "keywords": [
     "typescript",

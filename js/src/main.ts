@@ -41,7 +41,7 @@ type Values<S extends Schema> = {
   [key in keyof S]: Value<S[key]>;
 };
 
-export interface OpenPromptSpec<
+export interface PromptAPISpec<
   InputSchema extends Schema = Schema,
   OutputSchema extends Schema = Schema
 > {
@@ -233,10 +233,10 @@ function parseXMLToValues<OutputSchema extends Schema = Schema>(
 function fromSpec<
   InputSchema extends Schema = Schema,
   OutputSchema extends Schema = Schema
->(spec: OpenPromptSpec<InputSchema, OutputSchema>) {
+>(spec: PromptAPISpec<InputSchema, OutputSchema>) {
   // Note: This is not required for the spec to be valid, but it must use a alternative loader function
   // to get the template content in here.
-  // IE in a node environment you can use OpenPrompt.fromFolder(...) which will load the template content
+  // IE in a node environment you can use PromptAPI.fromFolder(...) which will load the template content
   // from the file system and put it into this field.
   if (!spec.template.content) {
     throw new Error("Template content is required");
@@ -269,7 +269,7 @@ export default {
   fromSpec,
   fromFolder: (folder: string): ReturnType<typeof fromSpec> => {
     throw new Error(
-      `Not implemented, use OpenPrompt.fromSpec(...) instead. ${folder}`
+      `Not implemented, use PromptAPI.fromSpec(...) instead. ${folder}`
     );
   },
 };
