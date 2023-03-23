@@ -102,9 +102,7 @@ function schemaEntryToXML(
     }
   } else if (type === "array") {
     xml += ">\n";
-    const arraySchemaEntry = schemaEntry as ArraySchemaEntry;
     for (const itemValue of value || []) {
-      console.log(itemValue);
       xml += schemaEntryToXML("item", itemValue, depth + 1);
     }
   } else {

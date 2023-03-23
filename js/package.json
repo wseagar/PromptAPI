@@ -1,6 +1,6 @@
 {
   "name": "openprompt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A JavaScript implementation of the OpenPrompt specification",
   "contributors": [
     "Will Seagar <w.seagar@gmail.com>"
