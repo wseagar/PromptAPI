@@ -1,7 +1,7 @@
 "use client";
 
 import PromptAPI, { PromptAPISpec, Schema } from "promptapi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Inputs from "./inputs";
 
 function Loading() {
@@ -31,20 +31,26 @@ function Loading() {
   );
 }
 
-export default function Spec({ spec }: { spec: PromptAPISpec }) {
+export default function Spec({ spec }: { spec: string }) {
   const [inputValues, setInputValues] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<any>(null);
+  const [compiled, setCompiled] = useState<string>("");
 
-  const name = spec.name;
-  const description = spec.description;
-  const inputSchema = spec.input.schema;
-  const outputSchema = spec.output.schema;
-  const template = spec.template.content;
-  const examples = spec.examples;
+  const specObj = JSON.parse(spec) as PromptAPISpec;
 
-  const prompt = PromptAPI.fromSpec(spec);
-  const compiled = prompt.compile(inputValues);
+  const name = specObj.name;
+  const description = specObj.description;
+  const inputSchema = specObj.input.schema;
+  const outputSchema = specObj.output.schema;
+  const template = specObj.template.content;
+  const examples = specObj.examples;
+
+  const prompt = PromptAPI.fromSpec(specObj);
+
+  function onCompile() {
+    setCompiled(prompt.compile(inputValues));
+  }
 
   async function submit(e: any) {
     e.preventDefault();
@@ -55,7 +61,7 @@ export default function Spec({ spec }: { spec: PromptAPISpec }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        spec: spec,
+        spec: specObj,
         input: inputValues,
       }),
     });
@@ -79,6 +85,13 @@ export default function Spec({ spec }: { spec: PromptAPISpec }) {
           className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 focus:outline-none"
         >
           Generate Output
+        </button>
+        <button
+          type="button"
+          className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 focus:outline-none ml-2"
+          onClick={onCompile}
+        >
+          Compile
         </button>
       </form>
       {loading && (
@@ -106,12 +119,15 @@ export default function Spec({ spec }: { spec: PromptAPISpec }) {
           </div>
         </>
       )}
-      <div className="mt-8">
-        <h3 className="text-xl font-semibold mb-4">Compiled</h3>
-        <div className="bg-gray-100 p-4 rounded-lg">
-          <pre className="whitespace-pre-wrap">{compiled}</pre>
+      {compiled && (
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-4">Compiled</h3>
+          <div className="bg-gray-100 p-4 rounded-lg">
+            <pre className="whitespace-pre-wrap">{compiled}</pre>
+          </div>
         </div>
-      </div>
+      )}
+
       <div className="mt-8">
         <h3 className="text-xl font-semibold mb-4">Examples:</h3>
         {examples.map((example, exampleIndex) => (

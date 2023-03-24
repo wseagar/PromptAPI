@@ -31,6 +31,16 @@ export async function POST(request: Request) {
   const promptApi = PromptAPI.fromSpec(spec);
   const compile = promptApi.compile(input);
   const completion = await OpenAICompletion(compile, "");
+  if (!completion) {
+    return new Response(
+      JSON.stringify({ raw: "", output: { error: "No completion" } }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
   const raw = completion?.content!;
   const parsed = promptApi.parse(raw);
   return new Response(

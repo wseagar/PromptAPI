@@ -14,8 +14,10 @@ export default function Home() {
   return (
     <main>
       {specFiles.map((specFile, index) => (
-        <Spec key={index} spec={specFile.spec} />
+        <Spec key={index} spec={JSON.stringify(specFile.spec)} />
       ))}
     </main>
   );
 }
+
+export const dynamic = "force-dynamic";
