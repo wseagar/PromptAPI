@@ -2,7 +2,16 @@
  * This file is the entrypoint of node builds.
  * The code executes when loaded in a node.
  */
-import PromptAPI, { PromptAPISpec } from "./main";
+import PromptAPI, {
+  PromptAPISpec,
+  ArraySchemaEntry,
+  BasicSchemaEntry,
+  ObjectSchemaEntry,
+  Schema,
+  SchemaEntry,
+  Value,
+  Values,
+} from "./main";
 import fs from "fs";
 import path from "path";
 
@@ -43,4 +52,14 @@ PromptAPI.fromFolder = (folder: string) => {
   return PromptAPI.fromSpec(spec);
 };
 
+export {
+  PromptAPISpec,
+  ArraySchemaEntry,
+  BasicSchemaEntry,
+  ObjectSchemaEntry,
+  Schema,
+  SchemaEntry,
+  Value,
+  Values,
+};
 export default PromptAPI;

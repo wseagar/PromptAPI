@@ -2,30 +2,33 @@ import { Liquid } from "liquidjs";
 import { Cheerio, load, Element } from "cheerio";
 import { CheerioAPI } from "cheerio/lib/load";
 
-type Schema = {
+export type Schema = {
   [key: string]: SchemaEntry;
 };
 
-type SchemaEntry = ArraySchemaEntry | ObjectSchemaEntry | BasicSchemaEntry;
+export type SchemaEntry =
+  | ArraySchemaEntry
+  | ObjectSchemaEntry
+  | BasicSchemaEntry;
 
-interface BasicSchemaEntry {
+export interface BasicSchemaEntry {
   type: "string" | "number" | "boolean";
   description?: string;
 }
 
-interface ArraySchemaEntry {
+export interface ArraySchemaEntry {
   type: "array";
   description?: string;
   items: SchemaEntry;
 }
 
-interface ObjectSchemaEntry {
+export interface ObjectSchemaEntry {
   type: "object";
   description?: string;
   properties: Schema;
 }
 
-type Value<T extends SchemaEntry> = T extends ArraySchemaEntry
+export type Value<T extends SchemaEntry> = T extends ArraySchemaEntry
   ? Array<Value<T["items"]>>
   : T extends ObjectSchemaEntry
   ? { [K in keyof T["properties"]]: Value<T["properties"][K]> }
@@ -37,7 +40,7 @@ type Value<T extends SchemaEntry> = T extends ArraySchemaEntry
   ? boolean
   : any;
 
-type Values<S extends Schema> = {
+export type Values<S extends Schema> = {
   [key in keyof S]: Value<S[key]>;
 };
 
