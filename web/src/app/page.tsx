@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <main>
       {specFiles.map((specFile, index) => (
-        <Spec spec={specFile.spec} />
+        <Spec key={index} spec={specFile.spec} />
       ))}
     </main>
   );
