@@ -254,8 +254,6 @@ function fromSpec<
 
   return {
     compile: (input: Values<InputSchema>) => {
-      const xml = schemaToXML(spec.output.schema);
-
       return engine.parseAndRenderSync(template, {
         input,
         examples: spec.examples,
@@ -265,6 +263,11 @@ function fromSpec<
       const document = load(output);
       return parseXMLToValues(document, spec.output.schema);
     },
+    validateInput: (input: Values<InputSchema>) => {
+      return validateValues(input, spec.input.schema);
+    },
+    template: spec.template.content!,
+    spec: spec,
   };
 }
 
@@ -276,3 +279,62 @@ export default {
     );
   },
 };
+
+function validateValue<InputSchema extends Schema>(
+  value: Values<InputSchema>[Extract<keyof InputSchema, string>],
+  schemaEntry: SchemaEntry,
+  key: string
+): string[] {
+  const errors: string[] = [];
+
+  if (value !== undefined) {
+    if (schemaEntry.type === "object") {
+      const objectSchemaEntry = schemaEntry as ObjectSchemaEntry;
+      errors.push(
+        ...validateValues(value, objectSchemaEntry.properties).map(
+          (error) => `${key}.${error}`
+        )
+      );
+    } else if (schemaEntry.type === "array") {
+      const arraySchemaEntry = schemaEntry as ArraySchemaEntry;
+      if (!Array.isArray(value)) {
+        errors.push(`Value for ${key} must be an array`);
+        return errors;
+      }
+      for (let i = 0; i < value.length; i++) {
+        errors.push(
+          ...validateValue(value[i], arraySchemaEntry.items, `${key}[${i}]`)
+        );
+      }
+    } else if (schemaEntry.type === "string") {
+      if (typeof value !== "string") {
+        errors.push(`Value for ${key} must be a string`);
+      }
+    } else if (schemaEntry.type === "number") {
+      if (typeof value !== "number") {
+        errors.push(`Value for ${key} must be a number`);
+      }
+    } else if (schemaEntry.type === "boolean") {
+      if (typeof value !== "boolean") {
+        errors.push(`Value for ${key} must be a boolean`);
+      }
+    }
+  }
+
+  return errors;
+}
+
+function validateValues<InputSchema extends Schema>(
+  input: Values<InputSchema>,
+  schema: InputSchema
+) {
+  const errors: string[] = [];
+
+  for (const key in schema) {
+    const schemaEntry = schema[key];
+    const value = input[key];
+    errors.push(...validateValue(value, schemaEntry, key));
+  }
+
+  return errors;
+}
