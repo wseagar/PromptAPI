@@ -257,6 +257,8 @@ function fromSpec<
       return engine.parseAndRenderSync(template, {
         input,
         examples: spec.examples,
+        inputSchema: schemaToXML(spec.input.schema),
+        outputSchema: schemaToXML(spec.output.schema),
       });
     },
     parse: (output: string): Values<OutputSchema> => {

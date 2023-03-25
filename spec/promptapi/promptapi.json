@@ -1,0 +1,31 @@
+{
+  "name": "promptapi_spec_generator",
+  "description": "Generate PromptAPI specifications based on input parameters.",
+  "author": "w.seagar@gmail.com",
+  "version": "0.1.0",
+  "license": "MIT",
+  "template": {
+    "language": "liquid",
+    "file": "promptapi.liquid"
+  },
+  "input": {
+    "schema": {
+      "description": {
+        "type": "string",
+        "description": "A description of the purpose of the PromptAPI specification."
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "generated_spec": {
+        "type": "string",
+        "description": "A generated PromptAPI specification in JSON format"
+      },
+      "generated_liquid_template": {
+        "type": "string",
+        "description": "A generated PromptAPI liquid template in JSON format"
+      }
+    }
+  }
+}

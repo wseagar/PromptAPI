@@ -1,0 +1,52 @@
+{
+  "name": "transaction-classifier",
+  "description": "Classify a transaction type based on the transaction information provided in the input.",
+  "author": "your-email-address@example.com",
+  "version": "0.1.0",
+  "license": "MIT",
+  "template": {
+    "language": "liquid",
+    "file": "transaction.liquid"
+  },
+  "input": {
+    "schema": {
+      "transaction_amount": {
+        "type": "number",
+        "description": "The amount of the transaction"
+      },
+      "transaction_description": {
+        "type": "string",
+        "description": "A description of the transaction."
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "transaction_type_primary": {
+        "type": "string",
+        "description": "The type of transaction as classified by the model"
+      },
+      "transaction_type_detailed": {
+        "type": "string",
+        "description": "The detailed type of transaction as classified by the model"
+      },
+      "confidence_score": {
+        "type": "number",
+        "description": "The confidence score of the model in classifying the transaction type."
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "transaction_amount": 1602.25,
+        "transaction_description": "LOAN PAYMENT ANZ TDM 1234567890"
+      },
+      "output": {
+        "transaction_type_primary": "LOAN_PAYMENTS",
+        "transaction_type_detailed": "LOAN_PAYMENTS_MORTGAGE_PAYMENT",
+        "confidence_score": 0.85
+      }
+    }
+  ]
+}

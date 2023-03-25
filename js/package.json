@@ -1,6 +1,6 @@
 {
   "name": "promptapi",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A JavaScript implementation of the PromptAPI specification",
   "contributors": [
     "Will Seagar <w.seagar@gmail.com>"
@@ -20,7 +20,7 @@
     "test-watch": "jest --watchAll",
     "clean": "rm -rf dist build package",
     "docs": "typedoc --entryPoints src/main.ts",
-    "build-all": "npm run clean && tsc --emitDeclarationOnly -p tsconfig.json && npx ts-node build.ts",
+    "build-all": "npm run clean && npx tsc --emitDeclarationOnly -p tsconfig.json && npx ts-node build.ts",
     "build-and-publish": "npm run build-all && npm publish"
   },
   "devDependencies": {

@@ -1,0 +1,84 @@
+PromptAPI is an open-source, language-agnostic JSON-based schema format for defining and working with large language model (LLM) prompts.
+
+The following is a PromptAPI specification:
+
+{
+  "name": "sentiment-extractor",
+  "description": "Extract the sentiment of the text.",
+  "author": "w.seagar@gmail.com",
+  "version": "0.1.0",
+  "license": "MIT",
+  "template": {
+    "language": "liquid",
+    "file": "sentiment.liquid"
+  },
+  "input": {
+    "schema": {
+      "input_text": {
+        "type": "string"
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "sentiment": {
+        "type": "number",
+        "description": "A integer number between 0-10, where 0 is negative and 10 is positive."
+      },
+      "reason": {
+        "type": "string",
+        "description": "The reason for the sentiment."
+      },
+      "words_or_phrases": {
+        "type": "array",
+        "description": "The words or phrases that were used to determine the sentiment.",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "input_text": "The customer service at this store is absolutely fantastic. Every time I visit, I'm greeted with a warm smile and helpful staff who go above and beyond to make sure I find what I need."
+      },
+      "output": {
+        "sentiment": 10,
+        "reason": "These words and phrases convey a sense of satisfaction and appreciation for the customer service at the store, indicating a positive sentiment towards the experience.",
+        "words_or_phrases": [
+          "absolutely fantastic",
+          "warm smile",
+          "helpful staff",
+          "go above and beyond"
+        ]
+      }
+    }
+  ]
+}
+
+The above specification defines a prompt that can be used to extract the sentiment of a given text.
+
+The template file sentiment.liquid is as follows:
+
+{{ "" }}
+Please analyze the sentiment expressed in the following text and rank it on a integer scale between 0-10. Explain your reasoning based on the words and phrases used in the text.
+The following example shows how you must format your response.
+
+{{ '{% for example in examples %}' }}
+{{ 'Text to analyze: "{{ example.input.input_text }}"' }}  
+  Sentiment analysis:
+{{ '{{ example.output | asSchema }}' }}  
+
+{{ '{% endfor %}' }}
+
+{{ 'Text to analyze: "{{ input.input_text }}"' }}
+Sentiment analysis:
+
+Now your job is to write a PromptAPI specification for the following task:
+{{ input.description }}
+
+Write your answer is the following format:
+{{ outputSchema }}
+
+

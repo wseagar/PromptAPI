@@ -130,7 +130,7 @@ export default function Spec({ spec }: { spec: string }) {
 
       <div className="mt-8">
         <h3 className="text-xl font-semibold mb-4">Examples:</h3>
-        {examples.map((example, exampleIndex) => (
+        {(examples || []).map((example, exampleIndex) => (
           <div key={exampleIndex} className="mb-4">
             <h4 className="text-lg font-semibold mb-2">
               Example {exampleIndex + 1}:
