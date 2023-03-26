@@ -33,6 +33,9 @@ async function main() {
     platform: "node",
     format: "esm",
     target: "es6",
+    banner: {
+      js: `import { createRequire } from 'module';const require = createRequire(import.meta.url);`,
+    },
   });
   console.log("resultesm", nodeEsm);
 }
