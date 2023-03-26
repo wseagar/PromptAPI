@@ -1,6 +1,6 @@
 {
   "name": "promptapi",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A JavaScript implementation of the PromptAPI specification",
   "contributors": [
     "Will Seagar <w.seagar@gmail.com>"
@@ -12,7 +12,16 @@
     "esbuild"
   ],
   "main": "./dist/esbuild/node.js",
+  "module": "./dist/esbuild/node.mjs",
   "types": "./dist/tsc/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esbuild/node.mjs",
+      "require": "./dist/esbuild/node.js",
+      "default": "./dist/esbuild/node.js",
+      "types": "./dist/tsc/main.d.ts"
+    }
+  },
   "browser": "./dist/esbuild/browser.js",
   "scripts": {
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",

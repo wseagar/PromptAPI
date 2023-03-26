@@ -12,7 +12,7 @@ async function main() {
   });
   console.log("resultBrowser", resultBrowser);
 
-  const resultNode = await build({
+  const nodeCjs = await build({
     entryPoints: ["src/node.ts"],
     bundle: true,
     outfile: "dist/esbuild/node.js",
@@ -22,6 +22,18 @@ async function main() {
     format: "cjs",
     target: "es6",
   });
-  console.log("resultNode", resultNode);
+  console.log("resultcjs", nodeCjs);
+
+  const nodeEsm = await build({
+    entryPoints: ["src/node.ts"],
+    bundle: true,
+    outfile: "dist/esbuild/node.mjs",
+    sourcemap: "both",
+    minify: true,
+    platform: "node",
+    format: "esm",
+    target: "es6",
+  });
+  console.log("resultesm", nodeEsm);
 }
 main();
